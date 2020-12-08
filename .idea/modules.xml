@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/EVOCA.iml" filepath="$PROJECT_DIR$/.idea/EVOCA.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../GEVOCA/.idea/GEVOCA.iml" filepath="$PROJECT_DIR$/../GEVOCA/.idea/GEVOCA.iml" />
+    </modules>
+  </component>
+</project>
