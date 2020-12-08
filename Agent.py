@@ -19,49 +19,44 @@ class Agent:
 
         self.adjust()
 
-
     def setexpression(self, expression):
         self.expression = copy.deepcopy(expression)
 
-
-
-
-
     def adjust(self):
 
-        tot = 0
-        for j in range(len(self.expression)):
-            tot += self.expression[j]
+        tot = self.total()
 
-        if tot > self.T:
-            for l in range(tot - self.T):
+        while tot > self.T:
+            rindex = random.randint(0, len(self.expression) - 1)
+            while (self.expression[rindex] == 0):
                 rindex = random.randint(0, len(self.expression) - 1)
-                while (self.expression[rindex] == 0):
-                    rindex = random.randint(0, len(self.expression) - 1)
 
-                if (self.expression[rindex] != 0):
-                    self.expression[rindex] = self.expression[rindex] - 1
+            if (self.expression[rindex] != 0):
+                self.expression[rindex] = self.expression[rindex] - 1
+            tot = self.total()
 
-        if tot < self.T:
-            for i in range(self.T - tot):
-                rindex = random.randint(0, len(self.expression) - 1)
-                self.expression[rindex] = self.expression[rindex] + 1
+        while tot < self.T:
+            rindex = random.randint(0, len(self.expression) - 1)
+            self.expression[rindex] = self.expression[rindex] + 1
+            tot = self.total()
+
+    def total(self):
+        total = 0
+        for i in range(len(self.expression)):
+            total += self.expression[i]
+        return total
 
     def mutate(self):
         total = 0
-        index1 = random.randint(0, len(self.expression)-1)
-        index2 = random.randint(0, len(self.expression)-1)
+        index1 = random.randint(0, len(self.expression) - 1)
+        index2 = random.randint(0, len(self.expression) - 1)
+        if index1 == index2:
+            return
         total = self.expression[index1] + self.expression[index2]
-
         mutation1 = random.randint(0, total)
         mutation2 = total - mutation1
-
         self.expression[index1] = mutation1
         self.expression[index2] = mutation2
-
-
-
-
 
     def TwoMOneB(self, N, r1, r2, p1, p2):
         # Initialization
