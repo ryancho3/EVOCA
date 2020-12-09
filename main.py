@@ -1,39 +1,39 @@
+#EVOlutionary Capacity Allocation algorithm v0.2
+#Ryan Cho
 
 from Population import Population
-import os
 import time
 from multiprocessing import Pool
 import multiprocessing
 import pandas as pd
-r = [0.35, 0.15, 0.4, 0.4, 0.3, 0.2, 0.3, 0.3, 0.4, 0.4, 0.3, 0.25]
-p = [0.037, 0.015, 0.02, 0.03, 0.03, 0.01, 0.02, 0.02, 0.02, 0.03, 0.03, 0.01]
-K = 12
-T = 242
-size = 100
-rate = 0.02
+
+#Global Variables
+r = [0.35, 0.15, 0.4, 0.4, 0.3, 0.2, 0.3, 0.3, 0.4, 0.4, 0.3, 0.25] #Probabilities of Repair
+p = [0.037, 0.015, 0.02, 0.03, 0.03, 0.01, 0.02, 0.02, 0.02, 0.03, 0.03, 0.01] #Probablilites of Failure
+K = 12 #Number of Machines
+T = 242 #Total Buffer Capacity
+size = 100 #Population Size
+rate = 0.02 #Mutation Rate
 version = 0.2
-g = 1000
-cores = int((multiprocessing.cpu_count())/2)
+g = 1000 #Generation per Iteration
+cores = int((multiprocessing.cpu_count())/2) #Number of Physical CPU Cores
 hyperthreading = True
 if hyperthreading:
-    cores = int(multiprocessing.cpu_count())
+    cores = int(multiprocessing.cpu_count()) #Number of Virtualization CPU Cores
 
-def clear():
-    time.sleep(0.3)
-    os.system('cls')
 
-def worker(ID):
-    r_bestf = []
-    r_bestex = []
+def worker(ID): #Worker for Multiprocessing Paralellization
+    r_bestf = [] #Best Fitness Values
+    r_bestex = [] #Expressions of Best Fitness Agents
     r_init = []
     r_avg = []
     r_gain = []
     r_mavg = []
     r_mgain = []
-    iteration = 0
+    iteration = 1
     print("Worker " + str(ID) + " initialized, starting tasks.")
     for j in range(int(96/cores)):
-        print("Worker " + str(ID) + " starting iteration " + str(iteration))
+        print("Worker " + str(ID) + " started iteration " + str(iteration) + ".")
         pop = Population(K, T, r, p, size, rate)
         pop.initialize()
         gen = 0
@@ -52,16 +52,8 @@ def worker(ID):
             gain = average - init
             if gain > maxgain:
                 maxgain = gain
-            """print("Generation: " + str(gen))
-            print("Average fitness: " + str(average))
-            print("\u0394Average Fitness From Previous Gen: " + str(average - prev))
-            print("Total Average Fitness Gain/Loss: " + str(gain))"""
             prev = average
             best = pop.getbestagent()
-            """print("")
-            print("best agent: " + str(best.expression))
-            print("best agent fitness: " + str(best.fitness))
-            print("best agent total: " + str(total(best.expression)))"""
 
         r_bestf.append(best.fitness)
         r_bestex.append(best.expression)
@@ -90,14 +82,13 @@ if __name__ == '__main__':
     mavg = []
     mgain = []
     for i in range(len(data)):
-        for j in range(len(data[i])):
-            bestf.extend(data[i][0])
-            bestex.extend(data[i][1])
-            init.extend(data[i][2])
-            avg.extend(data[i][3])
-            gain.extend(data[i][4])
-            mavg.extend(data[i][5])
-            mgain.extend(data[i][6])
+        bestf.extend(data[i][0])
+        bestex.extend(data[i][1])
+        init.extend(data[i][2])
+        avg.extend(data[i][3])
+        gain.extend(data[i][4])
+        mavg.extend(data[i][5])
+        mgain.extend(data[i][6])
 
     percent = int(rate * 100)
     results = {'Best Agent': bestex, 'Best Fitness': bestf, 'Initial P Avg Fitness': init, 'P Avg Fitness': avg,

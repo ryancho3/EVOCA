@@ -18,7 +18,6 @@ class Population:
         for i in range(self.s):
             self.agents.append(Agent(self.K, self.T, self.r, self.p))
             self.agents[i].initialize()
-        #self.gettop500()
         self.calcallfitness()
 
 
@@ -29,9 +28,9 @@ class Population:
     def adjustall(self):
         for i in range(len(self.agents)):
             self.agents[i].adjust()
+
     def setpopulation(self, pop):
         self.agents = pop
-        #self.gettop500()
 
     def calctotalfitness(self):
         tot = 0.0
@@ -54,19 +53,6 @@ class Population:
         return self.calctotalfitness()/len(self.agents)
 
     def selection(self):
-        ret = None
-        """if (top == True):
-            agents = self.top500
-            tot = 0
-            for i in range(50):
-                tot += agents[i].fitness
-            threshold = random.random() * tot
-            add = 0.0
-            for j in range(len(agents)):
-                add += agents[j].fitness
-                if (add > threshold):
-                    ret = agents[i]
-        else:"""
         tot = self.calctotalfitness()
         threshold = random.random() * tot
 
@@ -76,20 +62,6 @@ class Population:
             if (add >= threshold):
                 return self.agents[k]
 
-
-    def gettop500(self):
-        agentlist = copy.deepcopy(self.agents)
-        top500 = []
-        for i in range(500):
-            max = 0
-            maxindex = 0
-            for j in range(len(agentlist)):
-                if (agentlist[j].fitness > max):
-                    max = agentlist[j].fitness
-                    maxindex = j
-            top500.append(agentlist.pop(maxindex))
-        self.top500 = top500
-        return top500
 
 
     def generateoffspring(self):

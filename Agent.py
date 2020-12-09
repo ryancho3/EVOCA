@@ -104,20 +104,20 @@ class Agent:
         pN10 = C * (X ** (N - 1)) * (r1 + r2 - r1 * r2 - p1 * r2) / (p1 * r2)
 
         # 6 probability of boundary states after normalization
-        pBound = p001 + p100 + p101 + p111 + pN100 + pN110 + pN111 + pN10
+        #pBound = p001 + p100 + p101 + p111 + pN100 + pN110 + pN111 + pN10
         ps = p001
         pb = pN10
 
         d = 1e-3
 
         if X != 1:
-            pInt = ((C * ((X ** (N - 1)) - X ** 2) / (X - 1)) * ((1 + Y1) * (1 + Y2)))
+            #pInt = ((C * ((X ** (N - 1)) - X ** 2) / (X - 1)) * ((1 + Y1) * (1 + Y2)))
             a = (-2 * X) + (N - 1) * (X ** (N - 2))
             b = (X ** (N - 1)) - X ** 2
             c = X - 1
             nInt = (C * (X * (a - (b / c))) / c) * (1 + Y1) * (1 + Y2)
         else:
-            pInt = (0.5 * C * N * (N - 3) * (1 + Y1) * (1 + Y2))
+            #pInt = (0.5 * C * N * (N - 3) * (1 + Y1) * (1 + Y2))
             nInt = 0.5 * C * N * (N - 3) * (1 + Y1) * (1 + Y2)
 
         # 8 performance calculation
