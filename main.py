@@ -1,5 +1,5 @@
-#EVOlutionary Capacity Allocation algorithm v0.2
-#Ryan Cho
+# EVOlutionary Capacity Allocation algorithm v0.2
+# Ryan Cho
 
 from Population import Population
 import time
@@ -7,24 +7,24 @@ from multiprocessing import Pool
 import multiprocessing
 import pandas as pd
 
-#Global Variables
-r = [0.35, 0.15, 0.4, 0.4, 0.3, 0.2, 0.3, 0.3, 0.4, 0.4, 0.3, 0.25] #Probabilities of Repair
-p = [0.037, 0.015, 0.02, 0.03, 0.03, 0.01, 0.02, 0.02, 0.02, 0.03, 0.03, 0.01] #Probablilites of Failure
-K = 12 #Number of Machines
-T = 242 #Total Buffer Capacity
-size = 100 #Population Size
-rate = 0.02 #Mutation Rate
+# Global Variables
+r = [0.35, 0.15, 0.4, 0.4, 0.3, 0.2, 0.3, 0.3, 0.4, 0.4, 0.3, 0.25]  # Probabilities of Repair
+p = [0.037, 0.015, 0.02, 0.03, 0.03, 0.01, 0.02, 0.02, 0.02, 0.03, 0.03, 0.01]  # Probablilites of Failure
+K = 12  # Number of Machines
+T = 242  # Total Buffer Capacity
+size = 100  # Population Size
+rate = 0.05  # Mutation Rate
 version = 0.2
-g = 1000 #Generation per Iteration
-cores = int((multiprocessing.cpu_count())/2) #Number of Physical CPU Cores
+g = 1000  # Generation per Iteration
+cores = int((multiprocessing.cpu_count()) / 2)  # Number of Physical CPU Cores
 hyperthreading = True
 if hyperthreading:
-    cores = int(multiprocessing.cpu_count()) #Number of Virtualization CPU Cores
+    cores = int(multiprocessing.cpu_count())  # Number of Virtualization CPU Cores
 
 
-def worker(ID): #Worker for Multiprocessing Paralellization
-    r_bestf = [] #Best Fitness Values
-    r_bestex = [] #Expressions of Best Fitness Agents
+def worker(ID):  # Worker for Multiprocessing Parallelization
+    r_bestf = []  # Best Fitness Values
+    r_bestex = []  # Expressions of Best Fitness Agents
     r_init = []
     r_avg = []
     r_gain = []
@@ -32,7 +32,7 @@ def worker(ID): #Worker for Multiprocessing Paralellization
     r_mgain = []
     iteration = 1
     print("Worker " + str(ID) + " initialized, starting tasks.")
-    for j in range(int(96/cores)):
+    for j in range(int(96 / cores)):
         print("Worker " + str(ID) + " started iteration " + str(iteration) + ".")
         pop = Population(K, T, r, p, size, rate)
         pop.initialize()
@@ -67,8 +67,6 @@ def worker(ID): #Worker for Multiprocessing Paralellization
     return [r_bestf, r_bestex, r_init, r_avg, r_gain, r_mavg, r_mgain]
 
 
-
-
 if __name__ == '__main__':
     t = time.time()
     p = Pool(processes=cores)
@@ -97,11 +95,3 @@ if __name__ == '__main__':
     frame.to_csv('RawData/' + str(percent) + '.csv')
     elapsed = time.time() - t
     print("Process completed in " + str(elapsed))
-
-
-
-
-
-
-
-
